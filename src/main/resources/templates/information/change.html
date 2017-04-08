@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Editor/dist/css/wangEditor.min.css"/>
+    <script type="text/javascript" src="/Editor/dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/Editor/dist/js/wangEditor.min.js"></script>
+    <style type="text/css">
+        #div1 {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<br/>
+<input type="text" class="form-control" th:placeholder="${old.title}"/>
+<br/>
+<div id="div1">
+
+</div>
+<br/>
+<button class="btn btn-success btn-block" id="sub">提交</button>
+<form method="post" enctype="multipart/form-data" th:action="@{/view/upload/${old.id}}">
+    <div>
+        <input type="file" name="image"/>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+<script th:inline="javascript">
+    var editor = new wangEditor('div1');
+    editor.create();
+    $('#sub').click(function () {
+        $.ajax({
+            url: "/judement/commit",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify({
+                title: $("input").val(),
+                content: editor.$txt.html(),
+                id: [[${old.id}]]
+            }),
+            success: function () {
+                var r = alert("发送成功，点击返回上一个界面");
+                if (r == true) {
+                }
+                else {
+                    history.back();
+                }
+            },
+            error: function () {
+                alert("连接失败，请联系管理员");
+            }
+        });
+    })
+</script>
+</body>
+</html>

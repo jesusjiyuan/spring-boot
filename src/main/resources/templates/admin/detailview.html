@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>泽康集团在线办公系统</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="/detailview_s/js/time.js"/>
+
+    <script type="text/javascript" th:inline="javascript">
+        var webSocket = null;
+        $(function () {
+            if (!window.WebSocket) {
+                alert('你的浏览器不支持WebSocket');
+            } else {
+                startConnect();
+            }
+        });
+        function startConnect() {
+            var url = "ws://localhost:8080/chat/" + [[${id}]];
+            webSocket = new WebSocket(url);//一个websocket
+            webSocket.onerror = function (event) {//websocket的连接失败后执行的方法
+                onError(event)
+            };
+            webSocket.onopen = function (event) {//websocket的连接成功后执行的方法
+                onOpen(event)
+            };
+            webSocket.onmessage = function (event) {//websocket的接收消息时执行的方法
+                onMessage(event)
+            };
+        }
+        function onMessage(event) {
+            $("#fournumber").html(event.data);
+        }
+        function onOpen(event) {
+        }
+        function onError(event) {
+        }
+        window.onbeforeunload = onbeforeunload_handler;
+        window.onunload = onunload_handler;
+        function onbeforeunload_handler() {
+            webSocket.close();
+        }
+        function onunload_handler() {
+            webSocket.close();
+        }
+    </script>
+
+    <script src="/detailview_s/js/action.js"/>
+</head>
+<body>
+
+<nav class="navbar navbar-default" id="navHeight">
+    <form class="navbar-form">
+        <p class="navbar-text navbar-left">您好，<a href="#" class="navbar-link" th:text="${name}">名字</a></p>
+        <ul class="nav navbar-nav">
+            <li><a href="#" id="one">主页</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">部门<span class="caret"></span></a>
+                <ul class="dropdown-menu" id="department">
+                    <li><a href="#" id="a">财务部</a></li>
+                    <li><a href="#" id="b">行政部</a></li>
+                    <li><a href="#" id="c">信息部</a></li>
+                    <li><a href="#" id="d">生产部</a></li>
+                    <li><a href="#" id="e">营销部</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" id="f">经理办事处</a></li>
+                </ul>
+            </li>
+            <li><a href="#" id="two">邮箱</a></li>
+            <li><a href="#" id="three">论坛</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false" id="showman">在勤<span class="caret"></span><span class="badge"
+                                                                                         id="fournumber">0</span></a>
+                <ul class="dropdown-menu" id="people">
+                </ul>
+            </li>
+            <li><a href="#" id="five">退出</a></li>
+        </ul>
+        <p class="navbar-text navbar-right" id="showDate">获取时间中...</p>
+    </form>
+</nav>
+
+<div id="showView"></div>
+
+<script>
+    var hei = $("#navHeight").height();
+    $("#showView").offset({top: hei, left: 0});
+</script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>
