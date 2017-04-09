@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>登录记录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="/log/log.js"></script>
+
+    <link rel="stylesheet" href="/log/log.css"/>
+</head>
+<body>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>IP</th>
+        <th>地理位置</th>
+        <th>设备</th>
+        <th>版本</th>
+        <th>最近登录时间</th>
+        <th>操作</th>
+    </tr>
+
+    <tr th:each="list:${List}">
+        <td th:text="${list.ip}">ip</td>
+        <td th:text="${list.address}">address</td>
+        <td th:text="${list.client}">client</td>
+        <td th:text="${list.version}">version</td>
+        <td th:text="${list.time}">time</td>
+        <td th:if="${ip == list.ip}">
+            <a href="#" type="button" class="btn btn-sm btn-danger" id="edit">有误</a>
+        </td>
+    </tr>
+</table>
+
+<div id="login">
+    <h2>修改</h2>
+    <form id="loginForm" >
+        <div class="info"></div>
+        <div class="user">设 备：<input type="text" class="text" id="shebei"/></div>
+        <div class="pass">版 本：<input type="text" class="text" id="banben"/></div>
+        <br/>
+        <br/>
+        <div class="btn-group btn-group-lg" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" id="queren">确认</button>
+            <button type="button" class="btn btn-default" id="close">取消</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

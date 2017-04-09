@@ -54,7 +54,7 @@ $(document).ready(function () {
             dataType: "html",
             data: {"time": new Date().getTime()},
             success: function () {
-                window.location.href='/'
+                window.location.href='/web'
             },
             error: function () {
                 alert("连接失败，请联系管理员");

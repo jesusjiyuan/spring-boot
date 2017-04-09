@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import springboot.Uri;
 import springboot.entity.Userinfo;
 import springboot.repository.NewsResp;
 import springboot.repository.UserinfoResp;
@@ -33,12 +34,14 @@ public class Informarion {
     UserinfoResp userinfoResp;
     @Autowired
     NewsResp newsResp;
+    @Autowired
+    Uri uri;
 
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     public String log(Model model){
         //输入tomcat日志
         try {
-            FileInputStream inputStream = new FileInputStream("");
+            FileInputStream inputStream = new FileInputStream(uri.LOGURI);
             FileChannel fileChannel = inputStream.getChannel();
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             StringBuilder builder = new StringBuilder();

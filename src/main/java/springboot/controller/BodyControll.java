@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import springboot.Uri;
 import springboot.entity.Salary;
 import springboot.entity.Userinfo;
 import springboot.entity.Users;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -46,6 +48,8 @@ public class BodyControll {
     private NewsResp newsResp;
     @Autowired
     private SalaryResp salary;
+    @Autowired
+    private Uri uri;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Map<String,String> hasuser(@RequestBody Userinfo a, HttpServletRequest request) {
@@ -98,9 +102,6 @@ public class BodyControll {
     public String commit(@RequestBody Map<String,String> map){
         try {
             String content = map.get("content").replace("\"","\'");
-            System.out.println(map.get("title"));
-            System.out.println(content);
-            System.out.println(Integer.parseInt(map.get("id")));
             newsResp.updateNews(map.get("title"),content,Integer.parseInt(map.get("id")));
         } catch (NumberFormatException e) {
             return "false";
@@ -121,7 +122,7 @@ public class BodyControll {
     @RequestMapping(value = "/insert.json", method = RequestMethod.POST)
     public void insert(@RequestParam("file") CommonsMultipartFile file){
         if (!file.isEmpty()){
-            String url = "/Users/Mario.Hu/Desktop/spring-boot-example/" + file.getOriginalFilename();
+            String url = uri.INSERTEXCEL + file.getOriginalFilename();
             XSSFWorkbook workbook;
             Salary salaryEntity = new Salary();
             try {
@@ -164,4 +165,19 @@ public class BodyControll {
         }
     }
 
+    @RequestMapping(value = "/edit.json", method = RequestMethod.POST)
+    public Map<String,String> edit(@RequestBody Map<String,String> map,HttpServletRequest request){
+        Map<String,String> r = new HashMap<>();
+        final String nei = request.getRemoteAddr() + "：" + map.get("shebei") + "  " + map.get("banben") + "\n";
+        try {
+            FileWriter writer = new FileWriter(uri.EDITURI, true);
+            writer.write(nei);
+            writer.close();
+        } catch (IOException e) {
+            r.put("message","false");
+            return r;
+        }
+        r.put("message","true");
+        return r;
+    }
 }
