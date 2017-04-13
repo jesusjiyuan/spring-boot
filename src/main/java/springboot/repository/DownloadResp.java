@@ -1,20 +1,19 @@
 package springboot.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import springboot.entity.Comefrom;
+import springboot.entity.Download;
 
 import java.util.List;
 
 /**
  * ◢◤●████▄▄▄▄▄▄ ●●●●●   Created with Intellij IDEA.
  * ▄▅██████▅▄▃▂          User: Mario.Hu
- * ██████████████        Date: 08/04/2017 21:38
+ * ██████████████        Date: 11/04/2017 20:20
  * ◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲◤
  */
 @Repository
-public interface ComefromResp extends JpaRepository<Comefrom,String> {
+public interface DownloadResp extends JpaRepository<Download,Long> {
 
-    List<Comefrom> findAllByOrderByTimeDesc();
+    List<Download> findAllByOrderByIdDesc();
 }

@@ -18,6 +18,7 @@ import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -41,7 +42,9 @@ public class Informarion {
     public String log(Model model){
         //输入tomcat日志
         try {
-            FileInputStream inputStream = new FileInputStream(uri.LOGURI);
+            String time = new Timestamp(System.currentTimeMillis()).toString();
+            String docname = "catalina." + time.substring(0,time.length()-13) + ".log";
+            FileInputStream inputStream = new FileInputStream(uri.LOGURI + docname);
             FileChannel fileChannel = inputStream.getChannel();
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             StringBuilder builder = new StringBuilder();
@@ -73,5 +76,11 @@ public class Informarion {
         model.addAttribute("two",newsResp.findTitle(2));
         model.addAttribute("three",newsResp.findTitle(3));
         return "information/send";
+    }
+
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    public String upload(){
+
+        return "information/upload";
     }
 }

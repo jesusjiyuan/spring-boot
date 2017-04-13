@@ -20,10 +20,11 @@ public class Uri {
     /**
      * 提交的修改建议
      */
-    public final String EDITURI = "/Users/Mario.Hu/Desktop/h";
+    public final String EDITURI = "/home/hkz/a";
 
     /**
      * tomcat的log文件路径
      */
-    public final String LOGURI = "";
+    public final String LOGURI = "/home/hkz/apache-tomcat-9.0.0.M17/logs/";
+
 }

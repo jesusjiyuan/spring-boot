@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import springboot.entity.Comefrom;
+import springboot.entity.Download;
 import springboot.json.Local;
+import springboot.repository.DownloadResp;
 import springboot.session.MySessionContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +37,8 @@ public class UserControll {
 
     @Autowired
     SaveLocal saveLocal;
+    @Autowired
+    DownloadResp downloadResp;
 
     @RequestMapping(value = "/web")
     public String init(@CookieValue(value = "JSESSIONID", defaultValue = "none") String fooCookie) {
@@ -80,15 +84,22 @@ public class UserControll {
                             time);
                 }
             } else if (matcher.group(0).contains("Windows")) {
-                String str = matcher.group(0).substring(13);
-                Pattern windows = Pattern.compile("[0-9]+.[0-9]+");
-                Matcher windows1 = windows.matcher(str);
+                Pattern windows = Pattern.compile("Windows NT [0-9].[0-9]");
+                Matcher windows1 = windows.matcher(matcher.group(0));
                 if (windows1.find()) {
+                    String version = "暂无数据";
+                    switch (windows1.group(0).substring(11)){
+                        case "5.1" : version = "XP"; break;
+                        case "6.0" : version = "Vista"; break;
+                        case "6.1" : version = "7"; break;
+                        case "6.3" : version = "8.1"; break;
+                        case "10.0" : version = "10"; break;
+                    }
                     saveLocal.constr(
                             request.getRemoteAddr(),
                             local.result.area + " " + local.result.location,
                             "Windows",
-                            windows1.group(0),
+                            version,
                             time);
                 }
             } else if (matcher.group(0).contains("iPhone")) {
@@ -125,10 +136,18 @@ public class UserControll {
                             mac1.group(0).replaceAll("_","."),
                             time);
                 }
-            } else if (matcher.group(0).contains("android")) {
+            } else if (matcher.group(0).contains("Android")) {
                 modelMap.addAttribute("sig", "phone");
-                System.out.println(matcher.group(0));
-                System.out.println("android");
+                Pattern android = Pattern.compile("Android.*?;");
+                Matcher android1 = android.matcher(matcher.group(0));
+                if (android1.find()) {
+                    saveLocal.constr(
+                            request.getRemoteAddr(),
+                            local.result.area + " " + local.result.location,
+                            "Android",
+                            android1.group(0).substring(8,android1.group(0).length()-1),
+                            time);
+                }
             }
         }
         return "mainindex";
@@ -143,7 +162,9 @@ public class UserControll {
     }
 
     @RequestMapping(value = "download")
-    public String download() {
+    public String download(ModelMap modelMap) {
+        List<Download> list = downloadResp.findAllByOrderByIdDesc();
+        modelMap.addAttribute("downloadList",list);
         return "download";
     }
 }

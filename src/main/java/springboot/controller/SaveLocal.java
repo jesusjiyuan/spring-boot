@@ -35,7 +35,7 @@ public class SaveLocal {
     }
 
     public List<Comefrom> getCom(){
-        List<Comefrom> List = comefromResp.findAll();
+        List<Comefrom> List = comefromResp.findAllByOrderByTimeDesc();
         return List;
     }
 }

@@ -18,19 +18,16 @@
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/information/js/nav.js"></script>
 </head>
 <body>
-<div class="row">
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="active" id="fwq"><a href="#">服务器日志</a></li>
-            <li role="presentation" id="person"><a href="#">员工管理</a></li>
-            <li role="presentation" id="send"><a href="#">推送主页通知</a></li>
-            <li role="presentation" id="upload"><a href="#">上传文件到工具箱</a></li>
-        </ul>
-    </div>
-    <div class="col-md-9" id="information_left"></div>
-</div>
+<br/>
+<br/>
+<form action="/judement/testUpload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="zip"/>
+    <input type="file" name="jpg"/>
+    <input type="text" name="name"/>
+    <input type="text" name="exp"/>
+    <input type="submit" />
+</form>
 </body>
 </html>

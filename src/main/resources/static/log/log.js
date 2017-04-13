@@ -36,7 +36,7 @@ $(document).ready(function()
                 banben: $("#banben").val()
             }),
             success: function (data) {
-                if(data=="true"){
+                if(data.message =="true"){
                     alert("成功提交修改到后台，感谢您的参与，稍后官方会赠与您一台兰博基尼，请注意查收")
                     window.location.href='/'
                 } else {

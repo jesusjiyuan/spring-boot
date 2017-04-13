@@ -37,7 +37,7 @@
 </div>
 <br/>
 <button class="btn btn-success btn-block" id="sub">提交</button>
-<form method="post" enctype="multipart/form-data" th:action="@{/view/upload/${old.id}}">
+<form method="post" enctype="multipart/form-data" th:action="@{'/view/upload/'+${old.id}}">
     <div>
         <input type="file" name="image"/>
     </div>

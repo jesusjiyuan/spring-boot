@@ -64,4 +64,20 @@ $(document).ready(function () {
             }
         });
     })
+    $("#upload").click(function () {
+        $("li").removeClass("active");
+        $("#upload").addClass("active");
+        $.ajax({
+            url: "/information/upload",
+            type: "POST",
+            dataType: "html",
+            data: {"time": new Date().getTime()},
+            success: function (data) {
+                $("#information_left").html(data);
+            },
+            error: function () {
+                alert("连接失败，请联系管理员");
+            }
+        });
+    })
 });

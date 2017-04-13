@@ -30,7 +30,7 @@
             }
         });
         function startConnect() {
-            var url = "ws://localhost:8080/chat/" + [[${id}]];
+            var url = "ws://104.214.137.223:8080/chat/" + [[${id}]];
             webSocket = new WebSocket(url);//一个websocket
             webSocket.onerror = function (event) {//websocket的连接失败后执行的方法
                 onError(event)

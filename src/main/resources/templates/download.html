@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-
-    <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<title>胡总的工具箱</title>
+	<meta charset="utf-8"/>
+	<meta name="author" content="pixelhint.com"/>
+	<link rel="stylesheet" type="text/css" href="/download_st/css/reset.css"/>
+	<link rel="stylesheet" type="text/css" href="/download_st/css/main.css"/>
 </head>
 <body>
+
+	<section class="main wrapper" th:each="down:${downloadList}">
+		<article>
+			<div class="article_image">
+				<img src="/download_st/img/pic1.jpg" th:src="@{'/download_st/img/'+${down.pict}}"/>
+			</div>
+			<div class="post">
+				<h1 class="title" th:text="${down.name}">工具名字</h1>
+				
+				<p th:text="${down.exp}">软件说明</p>
+
+				<a class="read_more" href="#" th:href="@{'/download_st/file/'+${down.url}}">下载<i class="read_more_arrow"></i> </a>
+			</div>
+		</article>
+	</section>
 
 </body>
 </html>
